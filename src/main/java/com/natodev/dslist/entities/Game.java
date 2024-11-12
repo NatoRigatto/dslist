@@ -7,8 +7,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "tb_game")
 public class Game {
 
 	@Id
@@ -16,23 +18,26 @@ public class Game {
 	private Long id;
 	@Column(unique = true, nullable = false)
 	private String title;
-	@Column(name = "game_year")
+	@Column(name = "game_year", nullable = false)
 	private Integer year;
+	@Column(nullable = false)
 	private String genre;
+	@Column(nullable = false)
 	private String platforms;
+	@Column(nullable = false)
 	private Double score;
 	@Column(unique = true, nullable = false)
 	private String imgUrl;
-	@Column(unique = true, nullable = false)
-	private String shortdescription;
-	@Column(unique = true, nullable = false)
+	@Column(columnDefinition = "TEXT", unique = true, nullable = false)
+	private String shortDescription;
+	@Column(columnDefinition = "TEXT", unique = true, nullable = false)
 	private String longDescription;
 
 	public Game() {
 	}
 
 	public Game(Long id, String title, Integer year, String genre, String platforms, Double score, String imgUrl,
-			String shortdescription, String longDescription) {
+			String shortDescription, String longDescription) {
 		this.id = id;
 		this.title = title;
 		this.year = year;
@@ -40,7 +45,7 @@ public class Game {
 		this.platforms = platforms;
 		this.score = score;
 		this.imgUrl = imgUrl;
-		this.shortdescription = shortdescription;
+		this.shortDescription = shortDescription;
 		this.longDescription = longDescription;
 	}
 
@@ -100,12 +105,12 @@ public class Game {
 		this.imgUrl = imgUrl;
 	}
 
-	public String getShortdescription() {
-		return shortdescription;
+	public String getShortDescription() {
+		return shortDescription;
 	}
 
-	public void setShortdescription(String shortdescription) {
-		this.shortdescription = shortdescription;
+	public void setShortDescription(String shortDescription) {
+		this.shortDescription = shortDescription;
 	}
 
 	public String getLongDescription() {
