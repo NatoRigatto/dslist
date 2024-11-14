@@ -1,26 +1,13 @@
-# Etapa 1: Compilar o projeto
-FROM maven:3.8.6-openjdk-17 AS build
+FROM maven:3.9.8-eclipse-temurin-21-alpine AS build
 
-# Definir o diretório de trabalho dentro do container
-WORKDIR /dslist
+COPY ./src src/
+COPY ./pom.xml pom.xml
 
-# Copiar os arquivos do projeto para o container
-COPY . .
+RUN mvn clean verify
 
-# Compilar o projeto e criar o JAR
-RUN mvn clean package -DskipTests
+FROM maven:3.9.8-eclipse-temurin-21-alpine
 
-# Etapa 2: Executar o JAR gerado
-FROM openjdk:17-jdk-slim
-
-# Definir o diretório de trabalho no container
-WORKDIR /dslist
-
-# Copiar o JAR da etapa de build
-COPY --from=build /dslist/target/*.jar dslist.jar
-
-# Expor a porta que a aplicação utiliza (8080 por padrão)
+COPY --from=builder target/*jar dslist.jar
 EXPOSE 8080
 
-# Comando para rodar o JAR
-ENTRYPOINT ["java", "-jar", "dslist.jar"]
+CMD ["java", "-jar", "dslist.jar"]
